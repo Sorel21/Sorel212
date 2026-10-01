@@ -66,3 +66,64 @@ if (!window.matchMedia("(pointer: coarse)").matches) {
     });
   });
 }
+
+/* Auto-advancing swipe carousels */
+document.querySelectorAll(".portfolio-carousel").forEach(function(carousel) {
+  const slides = Array.from(carousel.querySelectorAll(".carousel-slide"));
+  const dots = Array.from(carousel.querySelectorAll(".carousel-dots button"));
+  const prev = carousel.querySelector(".carousel-prev");
+  const next = carousel.querySelector(".carousel-next");
+  const delay = Number(carousel.dataset.autoplay || 5000);
+  let index = 0;
+  let timer = null;
+  let pointerStartX = null;
+
+  function show(newIndex) {
+    index = (newIndex + slides.length) % slides.length;
+    slides.forEach(function(slide, i) {
+      slide.classList.toggle("is-active", i === index);
+    });
+    dots.forEach(function(dot, i) {
+      dot.classList.toggle("is-active", i === index);
+    });
+  }
+
+  function stop() {
+    if (timer) window.clearInterval(timer);
+    timer = null;
+  }
+
+  function start() {
+    stop();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    timer = window.setInterval(function() { show(index + 1); }, delay);
+  }
+
+  prev.addEventListener("click", function() { show(index - 1); start(); });
+  next.addEventListener("click", function() { show(index + 1); start(); });
+  dots.forEach(function(dot, i) {
+    dot.addEventListener("click", function() { show(i); start(); });
+  });
+
+  carousel.addEventListener("mouseenter", stop);
+  carousel.addEventListener("mouseleave", start);
+  carousel.addEventListener("focusin", stop);
+  carousel.addEventListener("focusout", start);
+
+  carousel.addEventListener("pointerdown", function(event) {
+    pointerStartX = event.clientX;
+  });
+  carousel.addEventListener("pointerup", function(event) {
+    if (pointerStartX === null) return;
+    const delta = event.clientX - pointerStartX;
+    pointerStartX = null;
+    if (Math.abs(delta) > 45) {
+      show(index + (delta < 0 ? 1 : -1));
+      start();
+    }
+  });
+  carousel.addEventListener("pointercancel", function() { pointerStartX = null; });
+
+  show(0);
+  start();
+});
