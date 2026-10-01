@@ -594,3 +594,72 @@ footer{
   .arttu-image{height:300px!important;min-height:0!important}
   .carousel-arrow{width:34px;height:34px}
 }
+
+
+/* Curated photography — visually strong, intentionally secondary to engineering */
+.media-carousel{height:350px}
+.portfolio-sprite{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  background-image:url("assets/portfolio-combined.webp");
+  background-repeat:no-repeat;
+  background-size:100% 1000%;
+  transition:transform .6s cubic-bezier(.2,.7,.2,1)
+}
+.carousel:hover .carousel-slide.is-active .portfolio-sprite{transform:scale(1.018)}
+.sprite-1{background-position:center 0%}
+.sprite-2{background-position:center 11.111%}
+.sprite-3{background-position:center 22.222%}
+.sprite-4{background-position:center 33.333%}
+.sprite-5{background-position:center 44.444%}
+.sprite-6{background-position:center 55.556%}
+.sprite-7{background-position:center 66.667%}
+.sprite-8{background-position:center 77.778%}
+.sprite-9{background-position:center 88.889%}
+.sprite-10{background-position:center 100%}
+
+.selected-photo-set{
+  margin-top:24px;padding-top:20px;border-top:1px solid var(--line)
+}
+.selected-photo-head{
+  display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:10px
+}
+.selected-photo-head span{
+  color:#777c87;font:600 9px "Space Grotesk";letter-spacing:.13em
+}
+.selected-photo-head small{color:#666c77;font-size:9px}
+.selected-photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.selected-photo-grid figure{
+  position:relative;overflow:hidden;margin:0;aspect-ratio:4/3;
+  border:1px solid var(--line);border-radius:12px;background:#0b0d12
+}
+.selected-photo-grid .portfolio-sprite{background-size:100% 1000%}
+.selected-photo-grid figure:after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 58%,rgba(5,6,9,.76))
+}
+.selected-photo-grid figcaption{
+  position:absolute;z-index:2;left:9px;bottom:8px;
+  color:#fff;font:500 8px "DM Sans";letter-spacing:.03em
+}
+.selected-photo-grid figure:hover .portfolio-sprite{transform:scale(1.045)}
+
+.involvement-card-photo{padding-top:14px}
+.involvement-photo{
+  position:relative!important;inset:auto!important;
+  width:100%;height:auto;aspect-ratio:16/9;
+  margin-bottom:18px;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  background-image:url("assets/portfolio-combined.webp");
+  background-size:100% 1000%;background-repeat:no-repeat
+}
+.involvement-card-photo h3{margin-top:18px}
+
+@media(max-width:1040px){
+  .media-carousel{height:320px}
+  .selected-photo-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .media-carousel{height:270px}
+  .selected-photo-head{align-items:flex-start;flex-direction:column;gap:4px}
+  .selected-photo-grid{grid-template-columns:repeat(2,1fr)}
+}
